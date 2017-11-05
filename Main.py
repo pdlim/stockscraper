@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 mwurl = "https://www.nasdaq.com/symbol/"
 
 trlist = []
-
 def init():
     stocklist = ['AAPL','WMT','WFC','BAC']
     tickerjump(stocklist)
@@ -37,12 +36,33 @@ def scrapesite(ticker):
                 tdlist.append(dirtyvar)
             trlist.append(tdlist)
 def lookmeup():
-    stockrow = input("Enter Row Number")
-    print("Ticker: " + trlist[int(stockrow)][0])
-    print("Date: " + trlist[int(stockrow)][1])
-    print("Open: " + trlist[int(stockrow)][2])
-    print("Close: " + trlist[int(stockrow)][5])
-    print("Volume: " + trlist[int(stockrow)][6])
-    lookmeup()
+    stockselect = input("Input Ticker: ")
+    searchlist = []
+    for srow in trlist[:]:
+        if srow[0] == stockselect:
+            stemprow = []
+            for sdata in srow[:]:
+                stemprow.append(sdata)
+            searchlist.append(stemprow)
+    dtlookup(searchlist)
+def dtlookup(searchlist):
+    print("Type 1 to select stock")
+    dateselect = input("Input Date: ")
+    if dateselect == '1':
+        lookmeup()
+    else:
+        findcount = 0
+        for dtrow in searchlist[:]:
+            if dtrow[1] == dateselect:
+                print("Stock: " + dtrow[0])
+                print("Date: " + dtrow[1])
+                print("Open: " + dtrow[2])
+                print("Close: " + dtrow[5])
+                print("Volume: " + dtrow[6])
+                findcount += 1
+        if findcount < 1:
+            print("not found")
+        dtlookup(searchlist)
 init()
 lookmeup()
+
